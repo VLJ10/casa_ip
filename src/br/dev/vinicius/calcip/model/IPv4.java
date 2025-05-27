@@ -1,47 +1,72 @@
 package br.dev.vinicius.calcip.model;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class IPv4 {
 	private String ip;
-	private String[] subMask;
+	private String[] separMascara;
 	private String[] octetos;
+	
+	private String oc1;
+	private String oc2;
+	private String oc3;
+	private String oc4;
+	
+	public IPv4(String ip) {
+		this.ip = ip;
+		
+		this.separMascara = ip.split("/");
+		this.octetos = separMascara[0].split("\\.");
+		
+		this.oc1 = octetos[0];
+		this.oc2 = octetos[1];
+		this.oc3 = octetos[2];
+		this.oc4 = octetos[3];
+	
+	}
 
 	public void setIp(String ip) {
 		this.ip = ip;
 		
-		this.subMask = ip.split("/");
-		this.octetos = subMask[0].split("\\.");
 	}
 
 	public String getIp() {
 		return ip;
 	}
+	
+	public String getOc1() {
+		return octetos != null && octetos.length > 0 ? octetos[0] : null;
+	}
+	public String getOc2() {
+		return octetos != null && octetos.length > 0 ? octetos[1] : null;
+	}
+	public String getOc3() {
+		return octetos != null && octetos.length > 0 ? octetos[2] : null;
+	}
+	public String getOc4() {
+		return octetos != null && octetos.length > 0 ? octetos[3] : null;
+	}
 
-	// Criando as variaveis para guardar cada octeto
-	private String oc1 = octetos[0];
-	private String oc2 = octetos[1];
-	private String oc3 = octetos[2];
-	private String oc4 = octetos[3];
+	
 
 	// convertendo o Oc1 para int
-	public void verificarClasseIp() {
+	public String verificarClasseIp() {
 		if (octetos == null || octetos.length != 4) {
-            System.out.println("Endereço IP inválido");
-            return;
+            return "Endereço IP inválido";
         }
 		
 		try {
 			int classeDoIp = Integer.parseInt(oc1);
 			
 			if (classeDoIp < 127) {
-				System.out.print("IP classe A");
+				System.out.print("IP classe A: ");
 			} else if(classeDoIp >= 128 && classeDoIp <= 191){
-				System.out.print("IP classe B");
+				System.out.print("IP classe B: ");
 			} else if(classeDoIp >= 192 && classeDoIp <= 223){
-				System.out.print("IP classe C");
+				System.out.print("IP classe C: ");
 			} else {
-				System.out.print("Esse endereço de ip é reservado para outras atividades");
+				return "Esse endereço de ip é reservado para outras atividades";
 			}
 			
 		} catch (NullPointerException erro) {
@@ -49,6 +74,12 @@ public class IPv4 {
 		} catch (Exception erro) {
 			System.out.print(erro.getMessage());
 		}
+		return oc1;
+	}
+	@Override
+	public String toString() {
+		
+		return "IPv4: " + ip + "\n" + "Separação da Mascara de sub-rede" + Arrays.toString(separMascara) + "\n"+ "Octetos:" + Arrays.toString(octetos) ;
 	}
 
 }
