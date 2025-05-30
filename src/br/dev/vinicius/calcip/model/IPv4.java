@@ -101,18 +101,61 @@ public class IPv4 {
 		} catch (Exception erro) {
 			System.out.print(erro.getMessage());
 		}
-		return oc1;
+		return verificarClasseIp();
 	}
 	
 	
-//	@Override
-//	public String toString() {
-//		System.out.println("meu to string");
-//		
-//		return "IPv4: " + ip + "\n" 
-//		+ "Separação da Mascara de sub-rede" + Arrays.toString(separMascara) + "\n" 
-//	    + "Octetos:" + Arrays.toString(octetos) + "\n"  ;
-//	}
+	
+	// metodo conversor de máscara cidr para decimal
+	public String decimalSubMask() {
+		
+		//conferindo se o usuario digitou o ip completo
+		if (separMascara == null || separMascara.length != 2) {
+			
+			//mensagem de erro caso o usuario tenha digitado o ip errado
+			throw new IllegalArgumentException("Máscara de sub-rede invalida.");
+		} 
+		
+		
+		try {
+			
+			//Aqui foi criaada uma variavel para receber e converter para inteiro a mascará cidr que 
+			//se encontra na segunda posição do vetor separMascara
+			//
+			int decimal = Integer.parseInt(separMascara[1]);
+			
+			//Conferindo se a máscara de CIDR existe 
+			if (decimal < 0 || decimal > 32) {
+				throw new IllegalArgumentException("Valor da máscara CIDR deve estar entre 0 e 32");
+			}
+			//mapeamento das máscaras decimais
+			String[] mascaras = {"0.0.0.0", "128.0.0.0", "192.0.0.0", "224.0.0.0", "240.0.0.0",
+		            "248.0.0.0", "252.0.0.0", "254.0.0.0", "255.0.0.0", "255.128.0.0",
+		            "255.192.0.0", "255.224.0.0", "255.240.0.0", "255.248.0.0", "255.252.0.0",
+		            "255.254.0.0", "255.255.0.0", "255.255.128.0", "255.255.192.0", "255.255.224.0",
+		            "255.255.240.0", "255.255.248.0", "255.255.252.0", "255.255.254.0", "255.255.255.0",
+		            "255.255.255.128", "255.255.255.192", "255.255.255.224", "255.255.255.240",
+		            "255.255.255.248", "255.255.255.252", "255.255.255.254", "255.255.255.255"
+		        };
+			
+			//retorno na mascara decimal 
+			return mascaras[decimal];
+			
+		} catch (NumberFormatException erro) {
+			throw new IllegalArgumentException("Valor decimal inválido: " + separMascara[1]);
+		}
+		
+	}
+	
+	
+	@Override
+	public String toString() {
+		System.out.println("meu to string");
+		
+		return "IPv4: " + ip + "\n" 
+		+ "Separação da Mascara de sub-rede" + Arrays.toString(separMascara) + "\n" 
+	    + "Octetos:" + Arrays.toString(octetos) + "\n"  ;
+	}
 
 }
 
