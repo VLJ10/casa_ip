@@ -2,6 +2,7 @@ package br.dev.vinicius.calcip.model;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Iterator;
 
 public class IPv4 {
 	private String ip;
@@ -17,10 +18,30 @@ public class IPv4 {
 	}
 
 	public IPv4(String ip) {
+		if (ip == null || ip.isEmpty()) {
+	        throw new IllegalArgumentException("Você informou o ip errado. /n Tente desse jeito xxx.xxx.xxx.xxx/xx");
+	    }
+
+	    this.ip = ip;
 		this.ip = ip;
 
 		this.separMascara = ip.split("/");
 		this.octetos = separMascara[0].split("\\.");
+		
+		if (octetos == null || octetos.length != 4 ) {
+			throw new IllegalArgumentException("Ip Invalido");
+		} 
+		for (String octeto : octetos) {
+			try {
+				
+				int valor = Integer.parseInt(octeto);
+				if(valor < 0 || valor > 255) {
+					throw new IllegalArgumentException("Octeto fora do intervalo (0-255):" + octeto);
+				}
+			} catch (NumberFormatException erro) {
+				 throw new IllegalArgumentException("Octeto inválido: " + octeto);
+			}
+		}
 
 		this.oc1 = octetos[0];
 		this.oc2 = octetos[1];
@@ -79,19 +100,20 @@ public class IPv4 {
 
 	// convertendo o Oc1 para int
 	public String verificarClasseIp() {
-		if (octetos == null || octetos.length != 4) {
+		if (oc1 == null) {
 			return "Endereço IP inválido";
 		}
+		int classeDoIp = Integer.parseInt(oc1);
 
 		try {
-			int classeDoIp = Integer.parseInt(oc1);
+			
 
 			if (classeDoIp < 127) {
-				System.out.print("IP classe A: " + oc1 + "\n");
+				return "IP Classe A: " + classeDoIp;
 			} else if (classeDoIp >= 128 && classeDoIp <= 191) {
-				System.out.print("IP classe B: " + oc1 + "\n");
+				return "IP Classe B: " + classeDoIp;
 			} else if (classeDoIp >= 192 && classeDoIp <= 223) {
-				System.out.print("IP classe C: " + oc1 + "\n");
+				return "IP Classe C: " + classeDoIp;
 			} else {
 				return "Esse endereço de ip é reservado para outras atividades";
 			}
@@ -101,7 +123,7 @@ public class IPv4 {
 		} catch (Exception erro) {
 			System.out.print(erro.getMessage());
 		}
-		return verificarClasseIp();
+		return "" + classeDoIp;
 	}
 
 	// metodo conversor de máscara cidr para decimal
