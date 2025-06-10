@@ -18,7 +18,9 @@ public class FrameIp {
 	private JLabel labelTitulo;
 	private JLabel labelClasse;
 	private JLabel labelSubDecimal;
+	private JLabel labeltextDecimal;
 	private JLabel labelSubBinario;
+	private JLabel labeltextBinario;
 	private JLabel labelQuantidade;
 	private JTextField textIp;
 	private JButton btnCalcular;
@@ -62,26 +64,39 @@ public class FrameIp {
 		labelClasse.setFont(labels);
 		
 		//label Sub Rede Decimal
+		labeltextDecimal = new JLabel();
+		labeltextDecimal.setBounds(45, 240, 270, 30);
+		labeltextDecimal.setFont(new Font("Fixedsys Regular", Font.PLAIN, 14));
+		
+		//label Sub Rede Decimal
 		labelSubDecimal = new JLabel();
-		labelSubDecimal.setBounds(45, 240, 150, 30);
-		labelSubDecimal.setFont(labels);
+		labelSubDecimal.setBounds(45, 270, 270, 30);
+		labelSubDecimal.setFont(new Font("Fixedsys Regular", Font.PLAIN, 14));
+		
+		//Label texto Binario
+		labeltextBinario = new JLabel();
+		labeltextBinario.setBounds(45, 320, 350, 30);
+		labeltextBinario.setFont(new Font("Fixedsys Regular", Font.PLAIN, 14));
 		
 		//label Sub Rede Binario
 		labelSubBinario = new JLabel();
-		labelSubBinario.setBounds(45, 280, 150, 30);
-		labelSubBinario.setFont(labels);
+		labelSubBinario.setBounds(45, 360, 350, 30);
+		labelSubBinario.setFont(new Font("Fixedsys Regular", Font.PLAIN, 14));
+		
 		
 		//Label da Quantidade de Ips totais
 		labelQuantidade = new JLabel();
-		labelQuantidade.setBounds(45, 320, 150, 30);
-		labelQuantidade.setFont(labels);
+		labelQuantidade.setBounds(45, 400, 350, 50);
+		labelQuantidade.setFont(new Font("Fixedsys Regular", Font.PLAIN, 14));
 		
 		painel.add(labelTitulo);
 		painel.add(textIp);
 		painel.add(btnCalcular);
 		painel.add(btnLimpar);
 		painel.add(labelClasse);
+		painel.add(labeltextDecimal);
 		painel.add(labelSubDecimal);
+		painel.add(labeltextBinario);
 		painel.add(labelSubBinario);
 		painel.add(labelQuantidade);
 		
@@ -99,14 +114,42 @@ public class FrameIp {
 					
 					String classe = ipv4.verificarClasseIp();
 					labelClasse.setText(classe);
+					labeltextDecimal.setText("Mascará de Sub rede decimal: ");
+					
+					String decimal = ipv4.decimalSubMask();
+					labelSubDecimal.setText(decimal);
+					
+					labeltextBinario.setText("Mascará de Sub rede Binaria: ");
+					
+					String binario = ipv4.binSubMask();
+					labelSubBinario.setText(binario);
+					
+					String quantidade = ipv4.ipsDisponiveis();
+					labelQuantidade.setText("Quantidade de Ips Total: " + "\n" + quantidade);
 					
 				} catch (Exception erro) {
 					JOptionPane.showMessageDialog(null, erro.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE );
 				}
 				
+				
 			}
 		});
 		
+		btnLimpar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				textIp.setText("");
+				labelClasse.setText(null);
+				labelSubDecimal.setText(null);
+				labeltextBinario.setText(null);
+				labelSubBinario.setText(null);
+				labelQuantidade.setText(null);
+				textIp.requestFocus();
+				
+			}
+		});
 		tela.setVisible(true);
 	}
 }

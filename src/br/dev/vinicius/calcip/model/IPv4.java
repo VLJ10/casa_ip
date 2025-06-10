@@ -97,6 +97,38 @@ public class IPv4 {
 		this.oc4 = octetos[3];
 		return octetos != null && octetos.length > 0 ? octetos[3] : null;
 	}
+//	public String validacaoIp() {
+//		if (oc1 == null) {
+//			return "Endereço IP inválido";
+//		}
+//		if (oc2 == null) {
+//			return "Endereço IP inválido";
+//		}
+//		if (oc3 == null) {
+//			return "Endereço IP inválido";
+//		}
+//		if (oc4 == null) {
+//			return "Endereço IP inválido";
+//		}
+//		
+//		int octeto1 = Integer.parseInt(oc1);
+//		int octeto2 = Integer.parseInt(oc2);
+//		int octeto3 = Integer.parseInt(oc3);
+//		int octeto4 = Integer.parseInt(oc4);
+//		int cdri = Integer.parseInt(separMascara[1]);
+//		
+//		try {
+//			
+//			if (cdri == 1 && octeto1 >= 128) {
+//			    throw new IllegalArgumentException("Ip Invalido. A mascará de sub-rede /1 só é dsponivel ate o ip 127.255.255.254");
+//			} else if (){
+//
+//			}
+//			
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
+//	}
 
 	// convertendo o Oc1 para int
 	public String verificarClasseIp() {
@@ -119,9 +151,9 @@ public class IPv4 {
 			}
 
 		} catch (NullPointerException erro) {
-			System.out.print(erro.getMessage());
+			erro.getMessage();
 		} catch (Exception erro) {
-			System.out.print(erro.getMessage());
+			erro.getMessage();
 		}
 		return "" + classeDoIp;
 	}
